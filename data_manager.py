@@ -13,7 +13,7 @@ class DataManager:
     def get_data(self):
         requestor = requests.get(url=self.endpoint, headers=self.headerz)
         requestor.raise_for_status()
-        # print(requestor.text)
+        print(requestor.text)
 
     def post_date(self, the_payload):
         post_to_sheety = requests.post(url=self.endpoint, json=the_payload, headers=self.headerz)

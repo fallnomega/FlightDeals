@@ -8,3 +8,6 @@ import flight_search
 import notification_manager
 
 
+my_sheety = data_manager.DataManager()
+my_sheety.get_data()
+
