@@ -7,11 +7,11 @@ import flight_data
 import flight_search
 import notification_manager
 
-# my_sheety = data_manager.DataManager()
-# my_sheety.get_data()
+my_sheety = data_manager.DataManager()
+my_sheety.get_data()
 
-searching = flight_search.FlightSearch()
-searching.get_flight_info()
+# searching = flight_search.FlightSearch()
+# searching.get_flight_info()
 
 
 # TODO

@@ -51,6 +51,23 @@ class FlightSearch:
         requestor.raise_for_status()
         print(requestor.text)
 
+    def find_airport(self,lookup_city):
+        print(lookup_city)
+        parameters = {'term': lookup_city,'locale':'en-US','location_types':'airport','limit':10,
+                      'active_only':'true'}
+        headerz = {'accept': 'application/json','apikey': self.apikey }
+        find_endpoint = '/locations/query'
+        requestor = requests.get(url=f'{self.endpoint}{find_endpoint}',headers=headerz,params=parameters)
+        requestor.raise_for_status()
+        print(requestor.text)
+
+
+  #       curl -X 'GET' \
+  # 'https://api.tequila.kiwi.com/locations/query?term=San%20Francisco&locale=en-US&location_types=airport&limit=10&active_only=true' \
+  # -H 'accept: application/json' \
+  # -H 'apikey: zViv5BDIxNcCrKPRLVt4eBppm_BatDWq'
+        return
+
     pass
 
 # flightdealfinder
