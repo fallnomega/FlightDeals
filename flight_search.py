@@ -7,7 +7,6 @@ import datetime
 class FlightSearch:
     def __init__(self):
         # API doc - https://tequila.kiwi.com/portal/docs/tequila_api/search_api
-
         self.endpoint = os.environ.get('KIWI_URL')
         self.apikey = os.environ.get('KIWI_KEY')
         self.fly_from = 'SFO'
@@ -48,9 +47,8 @@ class FlightSearch:
         requestor = requests.get(headers=headerz, params=parameters,
                                  url=f'{self.endpoint}{api}'
                                  )
-        # print(requestor.url)
-        requestor.raise_for_status()
         # print(requestor.text)
+        requestor.raise_for_status()
         return requestor.json()
 
     def find_airport(self, lookup_city):
@@ -65,9 +63,5 @@ class FlightSearch:
         data_returned = requestor.json()
         airport_iata = data_returned["locations"][0]["id"]
         self.fly_to = airport_iata
-        # print(f'{lookup_city} airport - {airport_iata}')
-        # return airport_iata
 
     pass
-
-# flightdealfinder

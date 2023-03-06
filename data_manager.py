@@ -14,49 +14,56 @@ class DataManager:
 
     def get_data(self):
         print('data_manager -> get_data called')
-        # # call Sheety API to get cites you want to find cheap flights for within the next 6 months
-        # requestor = requests.get(url=self.endpoint, headers=self.headerz)
-        # requestor.raise_for_status()
-        # # print(requestor.text)
-        # payload = requestor.json()
+        # call Sheety API to get cites you want to find cheap flights for within the next 6 months
+        requestor = requests.get(url=self.endpoint, headers=self.headerz)
+        requestor.raise_for_status()
+        # print(requestor.text)
+        payload = requestor.json()
 
-        # testing payload
-        payload = {
-            "prices": [
-                {
-                    "city": "Paris",
-                    "iataCode": "PAR",
-                    "lowestPrice": "7000",
-                    "id": 2
-                },
-                # {
-                #     "city": "Berlin",
-                #     "iataCode": "BER",
-                #     "id": 3
-                # },
-                # {
-                #     "city": "Houston",
-                #     "iataCode": "IAH",
-                #     "id": 4
-                # },
-                # {
-                #     "city": "San Francisco",
-                #     "iataCode": "SFO",
-                #     "id": 5
-                # },
-                # {
-                #     "city": "Auckland",
-                #     "iataCode": "AKL",
-                #     "id": 6
-                # }
-            ]
-        }
+        # # testing payload
+        # payload = {
+        #     "prices": [
+        #         {
+        #             "city": "Paris",
+        #             "iataCode": "PAR",
+        #             "lowestPrice": "7000",
+        #             "id": 2
+        #         },
+        #         {
+        #             "city": "Berlin",
+        #             "iataCode": "BER",
+        #             "lowestPrice": "7000",
+        #             "id": 3
+        #         },
+        #         {
+        #             "city": "Houston",
+        #             "iataCode": "IAH",
+        #             "lowestPrice": "7000",
+        #             "id": 4
+        #         },
+        #         {
+        #             "city": "Auckland",
+        #             "iataCode": "AKL",
+        #             "lowestPrice": "7000",
+        #             "id": 5
+        #         },
+        #         {
+        #             "city": "Asheville",
+        #             "iataCode": "AVL",
+        #             "lowestPrice": "7000",
+        #             "id": 6
+        #         }
+        #     ]
+        # }
 
         # find airports + flights for the cities returned from Sheety
         for x in payload['prices']:
             find_flights = flight_search.FlightSearch()
             find_flights.find_airport(x['city'])
             flight_payload = find_flights.get_flight_info(x['lowestPrice'])
+            if (len(flight_payload['data']) == 0):
+                # print(len(flight_payload['data']))
+                continue
             process_flight_data = flight_data.FlightData(flight_payload)
             process_flight_data.text_alert()
 
