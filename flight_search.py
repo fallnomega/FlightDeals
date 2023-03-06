@@ -63,5 +63,6 @@ class FlightSearch:
         data_returned = requestor.json()
         airport_iata = data_returned["locations"][0]["id"]
         self.fly_to = airport_iata
+        return airport_iata
 
     pass
