@@ -29,4 +29,3 @@ my_sheety.get_data()
 # The SMS should include the departure airport IATA code,
 # destination airport IATA code, departure city, destination city,
 # flight price and flight dates. e.g.
-

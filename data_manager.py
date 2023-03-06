@@ -52,8 +52,6 @@ class DataManager:
             ]
         }
 
-
-
         # find airports + flights for the cities returned from Sheety
         for x in payload['prices']:
             find_flights = flight_search.FlightSearch()
@@ -61,7 +59,6 @@ class DataManager:
             flight_payload = find_flights.get_flight_info(x['lowestPrice'])
             process_flight_data = flight_data.FlightData(flight_payload)
             process_flight_data.text_alert()
-
 
     def post_date(self, the_payload):
         post_to_sheety = requests.post(url=self.endpoint, json=the_payload, headers=self.headerz)

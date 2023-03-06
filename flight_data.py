@@ -22,6 +22,7 @@ class FlightData:
         self.flight_price = payload['data'][0]['price']
 
         # local_departure
+
     def text_alert(self):
         print('flight_manager -> text_alert called')
         message = f'Take off date -> {self.take_off}\n' \
@@ -30,4 +31,5 @@ class FlightData:
                   f'Flight for 2 adults and 2 kids -> ${self.flight_price} USD'
 
         print(message)
+
     pass
