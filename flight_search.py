@@ -32,14 +32,14 @@ class FlightSearch:
 
     def get_flight_info(self):
         parameters = {'fly_from': self.fly_from, 'fly_to': self.fly_to, 'date_from': self.date_from,
-                  'date_to': self.date_to, 'max_fly_duration': 20,
-                  'flight_type': self.flight_type, 'one_for_city': 0, 'one_per_date': 0, 'adults': self.adults,
-                  'children': self.children, 'selected_cabins': self.selected_cabins,
-                  'mix_with_cabins': self.mix_with_cabins,
-                  'adult_hold_bag': self.adult_hold_bag, 'adult_hand_bag': self.adult_hand_bag,
-                  'child_hold_bag': self.child_hold_bag, 'child_hand_bag': self.child_hand_bag,
-                  'partner_market': 'us', 'curr': self.currency, 'max_stopovers': 2, 'max_sector_stopovers': 2,
-                  'vehicle_type': self.vehicle_type, 'limit': 20}
+                      'date_to': self.date_to, 'max_fly_duration': 20,
+                      'flight_type': self.flight_type, 'one_for_city': 0, 'one_per_date': 0, 'adults': self.adults,
+                      'children': self.children, 'selected_cabins': self.selected_cabins,
+                      'mix_with_cabins': self.mix_with_cabins,
+                      'adult_hold_bag': self.adult_hold_bag, 'adult_hand_bag': self.adult_hand_bag,
+                      'child_hold_bag': self.child_hold_bag, 'child_hand_bag': self.child_hand_bag,
+                      'partner_market': 'us', 'curr': self.currency, 'max_stopovers': 2, 'max_sector_stopovers': 2,
+                      'vehicle_type': self.vehicle_type, 'limit': 20}
         api = '/v2/search'
         headerz = {'accept': 'application/json', 'apikey': self.apikey}
         # requestor = requests.get(url=f"{self.endpoint}{api}",params=params)
@@ -51,21 +51,17 @@ class FlightSearch:
         requestor.raise_for_status()
         print(requestor.text)
 
-    def find_airport(self,lookup_city):
+    def find_airport(self, lookup_city):
         print(lookup_city)
-        parameters = {'term': lookup_city,'locale':'en-US','location_types':'airport','limit':10,
-                      'active_only':'true'}
-        headerz = {'accept': 'application/json','apikey': self.apikey }
+        parameters = {'term': lookup_city, 'locale': 'en-US', 'location_types': 'airport', 'limit': 10,
+                      'active_only': 'true'}
+        headerz = {'accept': 'application/json', 'apikey': self.apikey}
         find_endpoint = '/locations/query'
-        requestor = requests.get(url=f'{self.endpoint}{find_endpoint}',headers=headerz,params=parameters)
+        requestor = requests.get(url=f'{self.endpoint}{find_endpoint}', headers=headerz, params=parameters)
         requestor.raise_for_status()
         print(requestor.text)
+        data_returned = requestor.json()
 
-
-  #       curl -X 'GET' \
-  # 'https://api.tequila.kiwi.com/locations/query?term=San%20Francisco&locale=en-US&location_types=airport&limit=10&active_only=true' \
-  # -H 'accept: application/json' \
-  # -H 'apikey: zViv5BDIxNcCrKPRLVt4eBppm_BatDWq'
         return
 
     pass
