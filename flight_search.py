@@ -23,14 +23,16 @@ class FlightSearch:
         self.child_hold_bag = '0,1'
         self.child_hand_bag = '1,0'
         self.currency = 'USD'
-        self.price_to = 4000
+        self.price_to = ''
         self.vehicle_type = 'aircraft'
         self.flight_type = 'oneway'
+        self.sort = 'price'
 
     # Use the Flight Search API to check for the cheapest flights from tomorrow to 6 months
     # later for all the cities in the Google Sheet.
 
-    def get_flight_info(self):
+    def get_flight_info(self, lowestPrice):
+        self.price_to = lowestPrice
         print('flight_search -> get_flight_info called')
         parameters = {'fly_from': self.fly_from, 'fly_to': self.fly_to, 'date_from': self.date_from,
                       'date_to': self.date_to, 'max_fly_duration': 20,
@@ -40,15 +42,16 @@ class FlightSearch:
                       'adult_hold_bag': self.adult_hold_bag, 'adult_hand_bag': self.adult_hand_bag,
                       'child_hold_bag': self.child_hold_bag, 'child_hand_bag': self.child_hand_bag,
                       'partner_market': 'us', 'curr': self.currency, 'max_stopovers': 2, 'max_sector_stopovers': 2,
-                      'vehicle_type': self.vehicle_type, 'limit': 20}
+                      'price_to': self.price_to, 'vehicle_type': self.vehicle_type, 'limit': 1, 'sort': self.sort}
         api = '/v2/search'
         headerz = {'accept': 'application/json', 'apikey': self.apikey}
         requestor = requests.get(headers=headerz, params=parameters,
                                  url=f'{self.endpoint}{api}'
                                  )
-        print(requestor.url)
+        # print(requestor.url)
         requestor.raise_for_status()
-        print(requestor.text)
+        # print(requestor.text)
+        return requestor.json()
 
     def find_airport(self, lookup_city):
         print('flight_search -> find_airport called')

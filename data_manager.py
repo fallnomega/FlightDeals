@@ -1,6 +1,7 @@
 import os
 import requests
 import flight_search
+import flight_data
 
 
 # This class is responsible for talking to the Google Sheet.
@@ -25,6 +26,7 @@ class DataManager:
                 {
                     "city": "Paris",
                     "iataCode": "PAR",
+                    "lowestPrice": "7000",
                     "id": 2
                 },
                 # {
@@ -54,14 +56,12 @@ class DataManager:
 
         # find airports + flights for the cities returned from Sheety
         for x in payload['prices']:
-            # print(x['city'])
-            # print(x['id'])
             find_flights = flight_search.FlightSearch()
             find_flights.find_airport(x['city'])
-            find_flights.get_flight_info()
+            flight_payload = find_flights.get_flight_info(x['lowestPrice'])
+            process_flight_data = flight_data.FlightData(flight_payload)
+            process_flight_data.text_alert()
 
-            # destination_airport = find_flights.find_airport(x['city'])
-            # print(destination_airport)
 
     def post_date(self, the_payload):
         post_to_sheety = requests.post(url=self.endpoint, json=the_payload, headers=self.headerz)
