@@ -13,6 +13,10 @@ class FlightSearch:
         self.fly_to = ''
         self.date_from = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime('%d/%m/%Y')
         self.date_to = (datetime.datetime.today() + datetime.timedelta(weeks=24)).strftime('%d/%m/%Y')
+
+        self.return_from = (datetime.datetime.today() + datetime.timedelta(days=6)).strftime('%d/%m/%Y')
+        self.return_to = (datetime.datetime.today() + datetime.timedelta(weeks=25)).strftime('%d/%m/%Y')
+
         self.adults = 2
         self.children = 2
         self.selected_cabins = 'C'
@@ -24,7 +28,10 @@ class FlightSearch:
         self.currency = 'USD'
         self.price_to = ''
         self.vehicle_type = 'aircraft'
-        self.flight_type = 'oneway'
+        # self.flight_type = 'oneway'
+        self.flight_type = 'round'
+        self.nights_in_dst_to = 10
+        self.nights_in_dst_from = 5
         self.sort = 'price'
 
     # Use the Flight Search API to check for the cheapest flights from tomorrow to 6 months
@@ -33,6 +40,14 @@ class FlightSearch:
     def get_flight_info(self, lowestPrice):
         self.price_to = lowestPrice
         print('flight_search -> get_flight_info called')
+        #   'https://api.tequila.kiwi.com/v2/search?fly_from=SFO&fly_to=CDG&date_from=01%2F04%2F2023
+        #   &date_to=05%2F04%2F2023&return_from=05%2F04%2F2023&return_to=15%2F04%2F2023&nights_in_dst_from=5
+        #   &nights_in_dst_to=10&max_fly_duration=20&flight_type=round&one_for_city=0&one_per_date=0&adults=2
+        #   &children=2&selected_cabins=C&mix_with_cabins=M&adult_hold_bag=1%2C0&adult_hand_bag=1%2C1
+        #   &child_hold_bag=2%2C1&child_hand_bag=1%2C1&partner_market=us&curr=USD&vehicle_type=aircraft
+        #   &limit=1' \
+
+        # return_from=05%2F04%2F2023&return_to=15%2F04%2F2023
         parameters = {'fly_from': self.fly_from, 'fly_to': self.fly_to, 'date_from': self.date_from,
                       'date_to': self.date_to, 'max_fly_duration': 20,
                       'flight_type': self.flight_type, 'one_for_city': 0, 'one_per_date': 0, 'adults': self.adults,
@@ -41,7 +56,10 @@ class FlightSearch:
                       'adult_hold_bag': self.adult_hold_bag, 'adult_hand_bag': self.adult_hand_bag,
                       'child_hold_bag': self.child_hold_bag, 'child_hand_bag': self.child_hand_bag,
                       'partner_market': 'us', 'curr': self.currency, 'max_stopovers': 2, 'max_sector_stopovers': 2,
-                      'price_to': self.price_to, 'vehicle_type': self.vehicle_type, 'limit': 1, 'sort': self.sort}
+                      'price_to': self.price_to, 'vehicle_type': self.vehicle_type, 'return_from': self.return_from,
+                      'return_to': self.return_to, 'nights_in_dst_from': self.nights_in_dst_from,
+                      'nights_in_dst_to': self.nights_in_dst_to,
+                      'limit': 1, 'sort': self.sort}
         api = '/v2/search'
         headerz = {'accept': 'application/json', 'apikey': self.apikey}
         requestor = requests.get(headers=headerz, params=parameters,

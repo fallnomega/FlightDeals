@@ -25,31 +25,31 @@ class DataManager:
                 {
                     "city": "Paris",
                     "iataCode": "CDG",
-                    "lowestPrice": "7000",
+                    "lowestPrice": "20000",
                     "id": 2
                 },
                 {
                     "city": "Berlin",
                     "iataCode": "BER",
-                    "lowestPrice": "7000",
+                    "lowestPrice": "20000",
                     "id": 3
                 },
                 {
                     "city": "Houston",
                     "iataCode": "HOU",
-                    "lowestPrice": "7000",
+                    "lowestPrice": "20000",
                     "id": 4
                 },
                 {
                     "city": "Auckland",
                     "iataCode": "AKL",
-                    "lowestPrice": "7000",
+                    "lowestPrice": "20000",
                     "id": 5
                 },
                 {
                     "city": "Asheville",
                     "iataCode": "AVL",
-                    "lowestPrice": "7000",
+                    "lowestPrice": "20000",
                     "id": 6
                 }
             ]
