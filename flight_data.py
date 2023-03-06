@@ -1,3 +1,5 @@
+import notification_manager
+
 # If the price is lower than the lowest price listed in the Google Sheet then send an
 # SMS to your own number with the Twilio API.
 
@@ -31,5 +33,7 @@ class FlightData:
                   f'Flight for 2 adults and 2 kids -> ${self.flight_price} USD'
 
         print(message)
+        text_it = notification_manager.NotificationManager()
+        text_it.send_alert(message)
 
     pass
