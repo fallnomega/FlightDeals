@@ -63,43 +63,31 @@ class DataManager:
             if x['iataCode'] == '':
                 self.update_data(destination_iata, x)
             try:
-                # print(f'outer try x :{x}')
                 flight_payload = find_flights.get_flight_info(x['lowestPrice'])
                 process_flight_data = flight_data.FlightData(flight_payload)
             except IndexError as error:
                 print(f"No flights found, looking for one with a stop over.")
                 try:
-                    # print(f"nested try print(f'except x :{x}')")
                     find_flights.max_stopovers = 2
                     flight_payload = find_flights.get_flight_info(x['lowestPrice'])
-                    # print(f'find_flights.via_city is: {find_flights.via_city}')
                     find_flights.via_city = flight_payload['data'][0]['route'][1]['flyFrom']
-                    # print(f'find_flights.via_city is now: {find_flights.via_city}')
-                    process_flight_data = flight_data.FlightData(flight_payload,stops=flight_payload['data'][0]['route'][1]['flyFrom'])
+                    process_flight_data = flight_data.FlightData(flight_payload,
+                                                                 stops=flight_payload['data'][0]['route'][1]['flyFrom'])
 
                 except:
                     print(f"Still no flights found.Exiting program")
                     exit()
                 else:
                     process_flight_data.text_alert()
+                    process_flight_data.email_alert()
 
-                # reattempt_find_flights_search_with_stop = flight_search.FlightSearch(stopovers=2)
-                # reattempt_destination_iata = find_flights.find_airport(x['city'])
-                # print(f'x["city"] = {x["city"]}')
-                # print(f'destination_iata = {destination_iata}')
-                #
-                # reattempt_flight_payload = reattempt_find_flights_search_with_stop.get_flight_info(x['lowestPrice'])
-                # process_flight_data = flight_data.FlightData(reattempt_flight_payload)
-                # print('\n\n')
-
-                # continue
             else:
                 # print('DOING THINGS FOR TESTING PURPOSES')
                 process_flight_data.text_alert()
-
+                process_flight_data.email_alert()
 
     def update_data(self, iata, item):
-        print('data_manager -> post_data called')
+        # print('data_manager -> post_data called')
         data = {
             'price': {
                 'city': item['city'],
@@ -110,6 +98,5 @@ class DataManager:
         # requests.put(url, params={key: value}, args)
         post_to_sheety = requests.put(url=endpoint, json=data, headers=self.headerz)
         post_to_sheety.raise_for_status()
-        print(post_to_sheety.text)
 
     pass

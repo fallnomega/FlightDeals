@@ -28,12 +28,10 @@ class User:
     def test_user(self):
         self.first_name = 'Jack'
         self.last_name = 'Johnson'
-        self.email_address = 'testing@mywebsite.com'
+        self.email_address = os.environ.get('TEST_EMAIL')
         self.add_user()
 
     def add_user(self):
-
-        print('users -> add_user called')
         data = {'user':
             {
                 'firstName': self.first_name,
@@ -43,4 +41,29 @@ class User:
         }
         add_to_sheety = requests.post(url=self.endpoint, json=data, headers=self.headerz)
         add_to_sheety.raise_for_status()
-        print(add_to_sheety.text)
+
+    def get_email(self):
+        get_emails = requests.get(url=self.endpoint, headers=self.headerz)
+        the_list = get_emails.json()
+        emails = []
+
+        # # Testing data
+        # data = {
+        #     "users": [
+        #         {
+        #             "firstName": "Jack",
+        #             "lastName": "Johnson",
+        #             "email": "fallnomega@gmail.com",
+        #             "id": 2
+        #         },
+        #         {
+        #             "firstName": "jake",
+        #             "lastName": "thunder",
+        #             "email": "jasonkh81@gmail.com",
+        #             "id": 3
+        #         }
+        #     ]
+        # }
+        for users in the_list['users']:
+            emails.append(users['email'])
+        return emails

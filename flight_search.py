@@ -31,8 +31,7 @@ class FlightSearch:
         self.nights_in_dst_from = 5
         self.sort = 'price'
         self.max_stopovers = 0
-        self.via_city="0"
-
+        self.via_city = "0"
 
     # Use the Flight Search API to check for the cheapest flights from tomorrow to 6 months
     # later for all the cities in the Google Sheet.
@@ -40,12 +39,11 @@ class FlightSearch:
     def get_flight_info(self, lowestPrice):
         self.price_to = lowestPrice
         # print('flight_search -> get_flight_info called')
-        # print(f'max_stopovers = {self.max_stopovers}')
         parameters = {'fly_from': self.fly_from, 'fly_to': self.fly_to, 'date_from': self.date_from,
                       'date_to': self.date_to,
                       'flight_type': self.flight_type, 'one_for_city': 0, 'one_per_date': 0, 'adults': self.adults,
                       'children': self.children, 'selected_cabins': self.selected_cabins,
-                      #'mix_with_cabins': self.mix_with_cabins,
+                      # 'mix_with_cabins': self.mix_with_cabins,
                       'adult_hold_bag': self.adult_hold_bag, 'adult_hand_bag': self.adult_hand_bag,
                       'child_hold_bag': self.child_hold_bag, 'child_hand_bag': self.child_hand_bag,
                       'partner_market': 'us', 'curr': self.currency,
