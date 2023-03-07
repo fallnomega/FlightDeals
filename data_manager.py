@@ -14,46 +14,46 @@ class DataManager:
 
     def get_data(self):
         # print('data_manager -> get_data called')
-        # # call Sheety API to get cites you want to find cheap flights for within the next 6 months
-        # requestor = requests.get(url=self.endpoint, headers=self.headerz)
-        # requestor.raise_for_status()
-        # payload = requestor.json()
+        # call Sheety API to get cites you want to find cheap flights for within the next 6 months
+        requestor = requests.get(url=self.endpoint, headers=self.headerz)
+        requestor.raise_for_status()
+        payload = requestor.json()
 
-        # testing payload
-        payload = {
-            "prices": [
-                {
-                    "city": "Paris",
-                    "iataCode": "CDG",
-                    "lowestPrice": "20000",
-                    "id": 2
-                },
-                {
-                    "city": "Bali",
-                    "iataCode": "DPS",
-                    "lowestPrice": "20000",
-                    "id": 3
-                },
-                # {
-                #     "city": "Houston",
-                #     "iataCode": "HOU",
-                #     "lowestPrice": "20000",
-                #     "id": 4
-                # },
-                # {
-                #     "city": "Auckland",
-                #     "iataCode": "AKL",
-                #     "lowestPrice": "20000",
-                #     "id": 5
-                # },
-                # {
-                #     "city": "Asheville",
-                #     "iataCode": "AVL",
-                #     "lowestPrice": "20000",
-                #     "id": 6
-                # }
-            ]
-        }
+        # # testing payload
+        # payload = {
+        #     "prices": [
+        #         {
+        #             "city": "Paris",
+        #             "iataCode": "CDG",
+        #             "lowestPrice": "20000",
+        #             "id": 2
+        #         },
+        #         {
+        #             "city": "Bali",
+        #             "iataCode": "DPS",
+        #             "lowestPrice": "20000",
+        #             "id": 3
+        #         },
+        #         {
+        #             "city": "Houston",
+        #             "iataCode": "HOU",
+        #             "lowestPrice": "20000",
+        #             "id": 4
+        #         },
+        #         {
+        #             "city": "Auckland",
+        #             "iataCode": "AKL",
+        #             "lowestPrice": "20000",
+        #             "id": 5
+        #         },
+        #         {
+        #             "city": "Asheville",
+        #             "iataCode": "AVL",
+        #             "lowestPrice": "20000",
+        #             "id": 6
+        #         }
+        #     ]
+        # }
 
         # find airports + flights for the cities returned from Sheety
         for x in payload['prices']:
@@ -63,16 +63,25 @@ class DataManager:
             if x['iataCode'] == '':
                 self.update_data(destination_iata, x)
             try:
-                # print(f'try x :{x}')
+                # print(f'outer try x :{x}')
                 flight_payload = find_flights.get_flight_info(x['lowestPrice'])
                 process_flight_data = flight_data.FlightData(flight_payload)
             except IndexError as error:
                 print(f"No flights found, looking for one with a stop over.")
-                # print(f"print(f'except x :{x}')")
-                find_flights.max_stopovers=2
-                flight_payload = find_flights.get_flight_info(x['lowestPrice'])
-                process_flight_data = flight_data.FlightData(flight_payload)
-                process_flight_data.text_alert()
+                try:
+                    # print(f"nested try print(f'except x :{x}')")
+                    find_flights.max_stopovers = 2
+                    flight_payload = find_flights.get_flight_info(x['lowestPrice'])
+                    # print(f'find_flights.via_city is: {find_flights.via_city}')
+                    find_flights.via_city = flight_payload['data'][0]['route'][1]['flyFrom']
+                    # print(f'find_flights.via_city is now: {find_flights.via_city}')
+                    process_flight_data = flight_data.FlightData(flight_payload,stops=flight_payload['data'][0]['route'][1]['flyFrom'])
+
+                except:
+                    print(f"Still no flights found.Exiting program")
+                    exit()
+                else:
+                    process_flight_data.text_alert()
 
                 # reattempt_find_flights_search_with_stop = flight_search.FlightSearch(stopovers=2)
                 # reattempt_destination_iata = find_flights.find_airport(x['city'])

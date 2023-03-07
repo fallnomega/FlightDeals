@@ -5,7 +5,7 @@ import notification_manager
 
 class FlightData:
     # This class is responsible for structuring the flight data.
-    def __init__(self, payload):
+    def __init__(self, payload,stops = "0"):
         # flight dates
         self.take_off = payload['data'][0]['local_departure']
         # departure airport iata code
@@ -20,6 +20,8 @@ class FlightData:
         self.nights_staying = payload['data'][0]['nightsInDest']
         # link to travel
         self.deep_link = payload['data'][0]['deep_link']
+        #stop overs
+        self.stop_over = stops
 
     def text_alert(self):
         takeoff = str.split(self.take_off,'T')
@@ -34,11 +36,12 @@ class FlightData:
                   f'Return date -> {return_date.strftime("%Y-%m-%d")}\n' \
                   f'From: {self.from_city} -> {self.depart_airport}\n' \
                   f'To: {self.to_city} -> {self.destination_airport}\n' \
-                  f''
+                  f'Stop over: {self.stop_over}'
 
         text_it = notification_manager.NotificationManager()
-        print(f'message to be sent: \n {message}\n//////////////////////////////////////////\n\n')
-        print('PRETEND YOU CALLED text_it.send_alert(message)')
-        # text_it.send_alert(message)
+        # print('PRETEND YOU CALLED text_it.send_alert(message)')
+        text_it.send_alert(message)
+        print(f'Text Message Sent!\n//////////////////////////////////////////\n\n')
+
 
     pass

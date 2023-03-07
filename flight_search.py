@@ -31,7 +31,7 @@ class FlightSearch:
         self.nights_in_dst_from = 5
         self.sort = 'price'
         self.max_stopovers = 0
-        self.via_city=""
+        self.via_city="0"
 
 
     # Use the Flight Search API to check for the cheapest flights from tomorrow to 6 months
@@ -61,7 +61,7 @@ class FlightSearch:
         requestor = requests.get(headers=headerz, params=parameters,
                                  url=f'{self.endpoint}{api}'
                                  )
-        print(requestor.text)
+        # print(requestor.text)
         requestor.raise_for_status()
         return requestor.json()
 

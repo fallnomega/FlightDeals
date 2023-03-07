@@ -17,7 +17,7 @@ class User:
         email_mismatch = True
         while email_mismatch:
             self.email_address = input('Email Address:> ')
-            retype_email_address = input('Email Address:> ')
+            retype_email_address = input('Retype Email Address:> ')
             if self.email_address == retype_email_address:
                 email_mismatch = False
                 self.add_user()
