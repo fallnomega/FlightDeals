@@ -30,6 +30,9 @@ class FlightSearch:
         self.nights_in_dst_to = 10
         self.nights_in_dst_from = 5
         self.sort = 'price'
+        self.max_stopovers = 0
+        self.via_city=""
+
 
     # Use the Flight Search API to check for the cheapest flights from tomorrow to 6 months
     # later for all the cities in the Google Sheet.
@@ -45,8 +48,8 @@ class FlightSearch:
                       'adult_hold_bag': self.adult_hold_bag, 'adult_hand_bag': self.adult_hand_bag,
                       'child_hold_bag': self.child_hold_bag, 'child_hand_bag': self.child_hand_bag,
                       'partner_market': 'us', 'curr': self.currency,
-                      'max_stopovers': 2,
-                      # 'max_stopovers': 0,
+                      'max_stopovers': self.max_stopovers,
+                      # 'max_stopovers': 2,
                       'max_sector_stopovers': 2,
                       'price_to': self.price_to, 'vehicle_type': self.vehicle_type, 'return_from': self.return_from,
                       'return_to': self.return_to, 'nights_in_dst_from': self.nights_in_dst_from,
