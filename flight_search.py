@@ -5,7 +5,7 @@ import datetime
 
 # This class is responsible for talking to the Flight Search API.
 class FlightSearch:
-    def __init__(self):
+    def __init__(self, one_or_round='round', stopovers=0, stop_from_city=""):
         # API doc - https://tequila.kiwi.com/portal/docs/tequila_api/search_api
         self.endpoint = os.environ.get('KIWI_URL')
         self.apikey = os.environ.get('KIWI_KEY')
@@ -26,13 +26,12 @@ class FlightSearch:
         self.price_to = ''
         self.vehicle_type = 'aircraft'
         # self.flight_type = 'oneway'
-        self.flight_type = 'round'
+        self.flight_type = one_or_round
         self.nights_in_dst_to = 10
         self.nights_in_dst_from = 5
         self.sort = 'price'
-        self.max_stopovers = 0
-        self.via_city=""
-
+        self.max_stopovers = stopovers
+        self.via_city = stop_from_city
 
     # Use the Flight Search API to check for the cheapest flights from tomorrow to 6 months
     # later for all the cities in the Google Sheet.
@@ -44,7 +43,7 @@ class FlightSearch:
                       'date_to': self.date_to, 'max_fly_duration': 20,
                       'flight_type': self.flight_type, 'one_for_city': 0, 'one_per_date': 0, 'adults': self.adults,
                       'children': self.children, 'selected_cabins': self.selected_cabins,
-                      #'mix_with_cabins': self.mix_with_cabins,
+                      # 'mix_with_cabins': self.mix_with_cabins,
                       'adult_hold_bag': self.adult_hold_bag, 'adult_hand_bag': self.adult_hand_bag,
                       'child_hold_bag': self.child_hold_bag, 'child_hand_bag': self.child_hand_bag,
                       'partner_market': 'us', 'curr': self.currency,
