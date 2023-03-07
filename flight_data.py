@@ -37,6 +37,6 @@ class FlightData:
                   f''
 
         text_it = notification_manager.NotificationManager()
-        text_it.send_alert(message)
+        # text_it.send_alert(message)
 
     pass

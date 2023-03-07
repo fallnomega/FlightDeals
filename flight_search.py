@@ -59,7 +59,7 @@ class FlightSearch:
         requestor = requests.get(headers=headerz, params=parameters,
                                  url=f'{self.endpoint}{api}'
                                  )
-        # print(requestor.text)
+        print(requestor.text)
         requestor.raise_for_status()
         return requestor.json()
 

@@ -65,9 +65,9 @@ class DataManager:
                 flight_payload = find_flights.get_flight_info(x['lowestPrice'])
                 process_flight_data = flight_data.FlightData(flight_payload)
             except IndexError as error:
-                print(f"No flights found")
-                flight_payload
-                continue
+                print(f"No flights found, looking for one with a stop over.")
+                reattempt_search_with_stop = flight_search.FlightSearch(stopovers=1)
+                # continue
             else:
                 # print('DOING THINGS FOR TESTING PURPOSES')
                 process_flight_data.text_alert()
