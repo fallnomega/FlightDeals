@@ -14,7 +14,7 @@ class DataManager:
 
     def get_data(self):
         print('data_manager -> get_data called')
-        # # call Sheety API to get cites you want to find cheap flights for within the next 6 months
+        # call Sheety API to get cites you want to find cheap flights for within the next 6 months
         requestor = requests.get(url=self.endpoint, headers=self.headerz)
         requestor.raise_for_status()
         payload = requestor.json()
@@ -29,8 +29,8 @@ class DataManager:
         #             "id": 2
         #         },
         #         {
-        #             "city": "Berlin",
-        #             "iataCode": "BER",
+        #             "city": "Bali",
+        #             "iataCode": "DPS",
         #             "lowestPrice": "20000",
         #             "id": 3
         #         },
@@ -61,11 +61,16 @@ class DataManager:
             destination_iata = find_flights.find_airport(x['city'])
             if x['iataCode'] == '':
                 self.update_data(destination_iata, x)
-            flight_payload = find_flights.get_flight_info(x['lowestPrice'])
-            if (len(flight_payload['data']) == 0):
+            try:
+                flight_payload = find_flights.get_flight_info(x['lowestPrice'])
+                process_flight_data = flight_data.FlightData(flight_payload)
+            except IndexError as error:
+                print(f"No flights found")
                 continue
-            process_flight_data = flight_data.FlightData(flight_payload)
-            process_flight_data.text_alert()
+            else:
+                # print('DOING THINGS FOR TESTING PURPOSES')
+                process_flight_data.text_alert()
+
 
     def update_data(self, iata, item):
         print('data_manager -> post_data called')
@@ -76,7 +81,6 @@ class DataManager:
                 'iataCode': iata}
         }
         endpoint = f'{self.endpoint}/{item["id"]}'
-        # https://api.sheety.co/3bd994d47cbc08d8dcec9127a2ddec19/flightDeals/prices/[Object ID]
         # requests.put(url, params={key: value}, args)
         post_to_sheety = requests.put(url=endpoint, json=data, headers=self.headerz)
         post_to_sheety.raise_for_status()

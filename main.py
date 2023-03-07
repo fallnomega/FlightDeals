@@ -9,4 +9,4 @@ register_user = users.User()
 # register_user.test_user()
 
 my_sheety = data_manager.DataManager()
-# my_sheety.get_data()
+my_sheety.get_data()

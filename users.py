@@ -16,9 +16,9 @@ class User:
         self.last_name = input('Lastname:> ')
         email_mismatch = True
         while email_mismatch:
-            self.email_adddress = input('Email Address:> ')
+            self.email_address = input('Email Address:> ')
             retype_email_address = input('Email Address:> ')
-            if self.email_adddress == retype_email_address:
+            if self.email_address == retype_email_address:
                 email_mismatch = False
                 self.add_user()
                 print("Added to the Flight Deal Club membership!")
