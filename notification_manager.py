@@ -12,7 +12,7 @@ class NotificationManager:
         self.my_twillio = twilio.rest.Client(self.sid, self.token)
 
     def send_alert(self, message):
-        print('notification_manager -> send_alert called')
+        print('Texting you the results now!\n//////////////////////////////////////////\n\n')
         text_alert = self.my_twillio.messages.create(
             body=f"{message}",
             from_=os.environ.get('TWILIO_NUMBER'),

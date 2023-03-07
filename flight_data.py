@@ -26,7 +26,7 @@ class FlightData:
         return_date = datetime.datetime.strptime(takeoff[0],'%Y-%m-%d')
         return_date = return_date + datetime.timedelta(days=self.nights_staying)
 
-        print('flight_manager -> text_alert called')
+        # print('flight_manager -> text_alert called')
         message = f'Low Price Alert: \n' \
                   f'Trip duration: {self.nights_staying}\n' \
                   f'Flight for 2 adults and 2 kids -> ${self.flight_price} USD\n' \
@@ -37,6 +37,8 @@ class FlightData:
                   f''
 
         text_it = notification_manager.NotificationManager()
+        print(f'message to be sent: \n {message}\n//////////////////////////////////////////\n\n')
+        print('PRETEND YOU CALLED text_it.send_alert(message)')
         # text_it.send_alert(message)
 
     pass

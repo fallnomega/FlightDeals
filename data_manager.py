@@ -13,7 +13,7 @@ class DataManager:
         self.headerz = {'Authorization': f'Bearer {self.token}'}
 
     def get_data(self):
-        print('data_manager -> get_data called')
+        # print('data_manager -> get_data called')
         # # call Sheety API to get cites you want to find cheap flights for within the next 6 months
         # requestor = requests.get(url=self.endpoint, headers=self.headerz)
         # requestor.raise_for_status()
@@ -59,14 +59,30 @@ class DataManager:
         for x in payload['prices']:
             find_flights = flight_search.FlightSearch()
             destination_iata = find_flights.find_airport(x['city'])
+            print(f"Finding flights to {x['city']} in the best William Shatner impersonation I can muster.")
             if x['iataCode'] == '':
                 self.update_data(destination_iata, x)
             try:
+                # print(f'try x :{x}')
                 flight_payload = find_flights.get_flight_info(x['lowestPrice'])
                 process_flight_data = flight_data.FlightData(flight_payload)
             except IndexError as error:
                 print(f"No flights found, looking for one with a stop over.")
-                reattempt_search_with_stop = flight_search.FlightSearch(stopovers=1)
+                # print(f"print(f'except x :{x}')")
+                find_flights.max_stopovers=2
+                flight_payload = find_flights.get_flight_info(x['lowestPrice'])
+                process_flight_data = flight_data.FlightData(flight_payload)
+                process_flight_data.text_alert()
+
+                # reattempt_find_flights_search_with_stop = flight_search.FlightSearch(stopovers=2)
+                # reattempt_destination_iata = find_flights.find_airport(x['city'])
+                # print(f'x["city"] = {x["city"]}')
+                # print(f'destination_iata = {destination_iata}')
+                #
+                # reattempt_flight_payload = reattempt_find_flights_search_with_stop.get_flight_info(x['lowestPrice'])
+                # process_flight_data = flight_data.FlightData(reattempt_flight_payload)
+                # print('\n\n')
+
                 # continue
             else:
                 # print('DOING THINGS FOR TESTING PURPOSES')
